@@ -7,9 +7,9 @@
     "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Matthew English",
+  "author": "Beth-Ann Penney-Rideout",
   "license": "MIT",
   "dependencies": {
-    "pg": "^8.13.0"
+    "pg": "^8.13.1"
   }
 }
