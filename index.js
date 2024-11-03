@@ -79,7 +79,7 @@ async function displayMovies() {
     console.table(result.rows);
 
   } catch (error) {
-    console.error('Error, cannot display movies:', error);
+    console.error('Error, cannot display movies:', error.message);
   }
 }
 };
@@ -91,7 +91,18 @@ async function displayMovies() {
  * @param {string} newEmail New email address of the customer
  */
 async function updateCustomerEmail(customerId, newEmail) {
-  // TODO: Add code to update a customer's email address
+  try {
+    const query = `
+      UPDATE customers
+      SET email = $1
+      WHERE customers_id = $2;
+    `;
+    await pool.query(query, [newEmail, customerId]); 
+    console.log("Email updated successfully");
+
+  } catch (error) {
+    console.error("Error, cannot update email", error.message);
+  }
 };
 
 /**
@@ -100,7 +111,21 @@ async function updateCustomerEmail(customerId, newEmail) {
  * @param {number} customerId ID of the customer to remove
  */
 async function removeCustomer(customerId) {
-  // TODO: Add code to remove a customer and their rental history
+  try {
+    const query = `
+      DELETE FROM customers
+      WHERE customers_id = $1;
+    `;
+    const result = await pool.query(query, [customerId]);
+    if (result.rowCount > 0) {
+      console.log(`Customer successfully deleted.`);
+    } else {
+      console.log(`Customer cannot be found.`);
+    }
+    
+  } catch (error) {
+    console.error('Error, cannot delete customer:', error.message);
+  }
 };
 
 /**
