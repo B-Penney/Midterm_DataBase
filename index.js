@@ -4,8 +4,8 @@ const { Pool } = require('pg');
 const pool = new Pool({
   user: 'postgres', //This _should_ be your username, as it's the default one Postgres uses
   host: 'localhost',
-  database: 'your_database_name', //This should be changed to reflect your actual database
-  password: 'your_database_password', //This should be changed to reflect the password you used when setting up Postgres
+  database: 'movie_rental_system', //This should be changed to reflect your actual database
+  password: 'dataBasePassword', //This should be changed to reflect the password you used when setting up Postgres
   port: 5432,
 });
 
@@ -13,7 +13,36 @@ const pool = new Pool({
  * Creates the database tables, if they do not already exist.
  */
 async function createTable() {
-  // TODO: Add code to create Movies, Customers, and Rentals tables
+  const createMovieRentalTable = `
+  CREATE TABLE IF NOT EXISTS movies (
+    movies_id SERIAL PRIMARY KEY,
+    title TEXT NOT NULL,
+    release_year INTEGER NOT NULL,
+    genre TEXT NOT NULL,
+    director TEXT NOT NULL
+  );
+`;
+const createCustomerTable = `
+  CREATE TABLE IF NOT EXISTS customers (
+    customers_id SERIAL PRIMARY KEY,
+    first_name TEXT NOT NULL,
+    last_name TEXT NOT NULL,
+    email TEXT UNIQUE NOT NULL,
+    phone TEXT NOT NULL
+  );
+`;
+const createRentalTable = `
+  CREATE TABLE IF NOT EXISTS rentals (
+    rentals_id SERIAL PRIMARY KEY,
+    customer_id INTEGER REFERENCES customers(customers_id) ON DELETE CASCADE,
+    movie_id INTEGER REFERENCES movies(movies_id),
+    rental_date DATE NOT NULL,
+    return_date DATE 
+  );
+`;
+await pool.query(createMovieRentalTable);
+await pool.query(createCustomerTable);
+await pool.query(createRentalTable);
 };
 
 /**
@@ -25,14 +54,34 @@ async function createTable() {
  * @param {string} director Director of the movie
  */
 async function insertMovie(title, year, genre, director) {
-  // TODO: Add code to insert a new movie into the Movies table
+  try {
+    const query= 
+    `INSERT INTO movies (title, year, genre, director) 
+     VALUES ($1, $2, $3, $4)`;
+  
+      await pool.query(query, [title, year, genre, director]);
+      console.log();
+      console.log( `New movie added `);
+
+    } catch (error) {
+      console.log();
+      console.error("Error, cannot insert movie: ", error.message);
+    }
 };
 
 /**
  * Prints all movies in the database to the console
  */
 async function displayMovies() {
-  // TODO: Add code to retrieve and print all movies from the Movies table
+ {
+  try {
+    const result = await pool.query('SELECT * FROM movies;');
+    console.table(result.rows);
+
+  } catch (error) {
+    console.error('Error, cannot display movies:', error);
+  }
+}
 };
 
 /**
