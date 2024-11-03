@@ -38,3 +38,15 @@ INSERT INTO Customers (first_name, last_name, email, phone) VALUES
     ('Cheshire', 'Cat', 'all_mad_here@example.com', '999-999-9999'),
     ('Fizz', 'Gig', 'fizzgig@example.com', '999-999-9999'), -- Fizz Gig is a little fluff ball of a dog from The Dark Crystal - 1982
     ('Gizmo', 'Gremlins', 'ilovegizmo@example.com', '999-999-9999');
+
+INSERT INTO Rentals (customer_id, movie_id, rental_date, return_date) VALUES
+    (3, 1, '2024-01-15', '2024-01-30'),
+    (5, 3, '2024-03-29', '2024-04-11'),
+    (1, 1, '2024-04-17', '2024-04-28'),
+    (1, 4, '2024-06-07', '2024-06-13'),
+    (4, 5, '2024-07-12', '2024-08-01'),
+    (4, 5, '2024-08-05', '2024-08-19'),
+    (5, 2, '2024-09-02', '2024-09-21'),
+    (2, 4, '2024-10-03', '2024-10-30'),
+    (5, 3, '2024-11-15', '2024-11-23'),
+    (1, 2, '2024-11-27', '2024-12-07');
