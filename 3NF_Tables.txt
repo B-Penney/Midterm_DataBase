@@ -1,0 +1,3 @@
+Movie Rental Table, Rental Table, Customer Table;
+- Contains singular value without repeating data
+- Non-key attributes only relate/depend on primary keys
